@@ -26,12 +26,9 @@ const iFormInputSchema = z.object({
         .optional()
     )
     .length(16)
-    .refine(
-      (data) => data.filter((item) => item !== (null || undefined)).length >= 3,
-      {
-        message: "In order to solve it we need at least 3 filled cells.",
-      }
-    )
+    .refine((data) => data.filter((item) => Boolean(item)).length >= 3, {
+      message: "In order to solve it we need at least 3 filled cells.",
+    })
     .refine((data) => data.includes(null) || data.includes(undefined), {
       message: "To solve it we need at least one empty cell.",
     }),
@@ -167,7 +164,7 @@ const MatrixForm = () => {
   };
 
   return (
-    <div style={{ display: "block" }}>
+    <div style={{ display: "inline-blok" }}>
       <div className='flex flex-col space-y-[8px] items-start'>
         <div className='flex flex-row space-x-[8px] items-start'>
           <div
