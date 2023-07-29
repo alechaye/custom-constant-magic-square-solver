@@ -11,7 +11,7 @@ import {
 import { Alert } from "antd";
 import ICell from "./ICell";
 import axios from "axios";
-import { z } from "Zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const iFormInputSchema = z.object({
