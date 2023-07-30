@@ -156,13 +156,16 @@ const MatrixForm = () => {
 
   const loadExample = () => {
     clearState();
+    setApiMessage({
+      type: "success",
+      message: "Click on solve to see the solution",
+    });
     setValue("sumConstants", Array(8).fill(34));
     setValue("variables.1", 2);
     setValue("variables.2", 3);
     setValue("variables.4", 5);
     setValue("variables.8", 9);
   };
-
 
   return (
     <div style={{ display: "inline-blok" }}>

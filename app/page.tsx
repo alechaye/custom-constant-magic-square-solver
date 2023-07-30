@@ -20,8 +20,9 @@ export default function Home() {
       </Typography.Title>
       <Typography.Paragraph style={{ textAlign: "center" }}>
         This is a custom constant magic square solver. It is a variation of a
-        magic square. The challenge is to make that the sum of each row and
-        column is equal to the constant, which is green.
+        magic square. The challenge is to fill the numbers 1 to 16 without
+        repeating them in the white cells to make the sum of each row and column
+        equal to the constants (green cells).
       </Typography.Paragraph>
       <MatrixForm />
     </main>
