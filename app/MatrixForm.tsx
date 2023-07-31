@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, Pagination } from "antd";
 import {
   useForm,
   Controller,
@@ -62,6 +62,7 @@ const MatrixForm = () => {
   const [formInitialValuesState, setFormInitialValuesState] =
     useState<IFormInput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [solutions, setSolutions] = useState<Square[]>();
 
   const {
     handleSubmit,
@@ -132,23 +133,20 @@ const MatrixForm = () => {
       return;
     }
 
-    if (solution.length > 1) {
-      setApiMessage({
-        type: "warning",
-        message: `There are ${solution.length} solutions. Only the first one will be shown`,
-      });
-    }
+    setSolutions(solution);
+    handleSolutionsPageChange(solution[0]);
+  };
 
-    const singleSolution = solution[0];
-
-    Object.keys(singleSolution).forEach((key) => {
-      setValue(`variables.${Number(key)}`, singleSolution[Number(key)]);
+  const handleSolutionsPageChange = (solution: Square) => {
+    Object.keys(solution).forEach((key) => {
+      setValue(`variables.${Number(key)}`, solution[Number(key)]);
     });
   };
 
   const clearState = () => {
     setFormSubmitted(false);
     setApiMessage(undefined);
+    setSolutions(undefined);
     setFormInitialValuesState(null);
     setValue("variables", Array(16).fill(undefined));
     setValue("sumConstants", Array(8).fill(undefined));
@@ -168,7 +166,12 @@ const MatrixForm = () => {
   };
 
   return (
-    <div style={{ display: "inline-blok" }}>
+    <div
+      style={{
+        display: "inline-blok",
+        alignContent: "center",
+      }}
+    >
       <div className='flex flex-col space-y-[8px] items-start'>
         <div className='flex flex-row space-x-[8px] items-start'>
           <div
@@ -229,6 +232,30 @@ const MatrixForm = () => {
           onClose={() => setApiMessage(undefined)}
         />
       ) : null}
+
+      {Boolean(solutions) && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: 16,
+          }}
+        >
+          <Pagination
+            simple
+            defaultCurrent={1}
+            defaultPageSize={1}
+            showTotal={(total) => {
+              return `Solutions: `;
+            }}
+            total={solutions?.length}
+            onChange={(page) => {
+              if (solutions) handleSolutionsPageChange(solutions[page - 1]);
+            }}
+          />
+        </div>
+      )}
 
       <Button
         size='large'
